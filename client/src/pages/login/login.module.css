@@ -1,0 +1,176 @@
+.loginPage {
+    width: 100%;
+    height: 100vh;
+    background-image: url('../../images/gym-crm.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    overflow-x: hidden;
+}
+
+.loginForm {
+    background-color: white;
+    /* padding: 1.6rem; */
+    border-radius: 0.5rem;
+    top: 15%;
+    height: 50vh;
+    min-height: 27.8rem;
+    width: 20vw;
+    position: relative;
+
+}
+
+.form {
+    color: black;
+    font-size: 1.6rem;
+    padding: 1.6rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    margin-top: 0.7rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.formGroup input {
+    font-family: Nunito;
+    height: 2rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: solid 1px #eee;
+}
+
+.formGroup input:focus {
+    border-bottom: solid 1px #000;
+    outline: none;
+}
+
+/* CHOOSETAB BUTTONS */
+.chooseTab {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* padding: 1.6rem; */
+    border-bottom: solid 1px #eee;
+}
+
+.chooseTab button {
+    width: 100%;
+    height: 3rem;
+    background: none;
+    border: none;
+    transition: 100ms;
+    font-family: Nunito;
+    font-size: 1.2rem;
+    font-weight: bold;
+    overflow: hidden;
+    color: #333333;
+    padding: 0;
+    /* border-radius: 0.5rem; */
+}
+
+.chooseTab button:hover {
+    overflow: hidden;
+    color: #000000;
+}
+
+/* SUBMIT BUTTON */
+.submitButton {
+    display: flex;
+    justify-content: space-around;
+    background: none;
+    border: 1.5px solid #1ECD97;
+    color: #1ECD97;
+    transition: 100ms;
+    margin: 0 50%;
+    transform: translateX(-50%);
+    font-family: Nunito;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    padding: 0.3rem 1rem;
+    height: 2.5rem;
+    width: 7rem;
+    border-radius: 10rem;
+}
+
+.submitButton:hover {
+    color: #fff;
+    background-color: #1ECD97;
+}
+
+.submitButton:disabled {
+    color: #fff;
+    background-color: #1ECD97;
+}
+
+/*LOADING ANIMATION*/
+.loading {
+    display: inline-block;
+    position: relative;
+    width: 46px;
+    height: 100%;
+}
+
+.loading div {
+    position: absolute;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loading div:nth-child(1) {
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.loading div:nth-child(2) {
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.loading div:nth-child(3) {
+    left: 18px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.loading div:nth-child(4) {
+    left: 36px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(18px, 0);
+    }
+}

@@ -1,0 +1,10 @@
+.card {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-radius: 2rem;
+    max-width: 50%;
+}
+
+.card img {
+    width: 100%;
+}

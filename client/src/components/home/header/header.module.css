@@ -1,0 +1,132 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 900;
+}
+
+.header {
+    height: 100vh;
+}
+
+body {
+
+    color: aliceblue;
+}
+
+.logo {
+    margin-left: 10%;
+    margin-top: 3rem;
+    border: none;
+    font-weight: 900;
+}
+
+.logo h1 {
+    font-weight: 900;
+    font-size: 2.4rem;
+    margin: 0;
+}
+
+.coloredText {
+    color: crimson;
+}
+
+.login {
+    align-self: auto;
+    margin-right: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.login button{
+    font-family: Nunito;
+    font-weight: bolder;
+    color: aliceblue;
+    margin-top: 3rem;
+    margin-right: 3rem;
+    border: none;
+    text-decoration: none;
+    font-size: 1.4rem;
+    border-radius: 5rem;
+    height: 3rem;
+    width: 7rem;
+    padding: 0.7rem;
+    transition: 300ms linear;
+    background-color: crimson;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login button:hover {
+    background-color:darkred;
+}
+
+.titleWrapper {
+    margin-top: 10rem;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 24rem;
+}
+
+.titleWrapper * {
+    margin: 0;
+    padding-left: 1rem;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+#titleWrapper  {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2rem;
+    margin-bottom: 31px;
+    padding: 1rem;
+    width: 40%;
+}
+
+#macImg {
+    margin-bottom: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 2rem;
+    width: 40rem;
+    -webkit-filter: drop-shadow(6px 6px 10px rgba(0,0,0,0.32));
+    filter: drop-shadow(6px 6px 10px rgba(0,0,0,0.32));
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.title {
+    font-size: 2.7rem;
+}
+
+.subtitle {
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+}
+
+.link {
+    margin-left: 48.5%;
+}
+
+svg {
+    fill: crimson;
+    width: 30px;
+    height: 30px;
+    transition: 300ms linear;
+}
+
+svg path {
+    /* transform: scale(1.8) ; */
+    transform-box: fill-box;
+    transform-origin: center center;
+}
+
+svg:hover {
+    fill: darkred;
+}

@@ -9,12 +9,6 @@ const Content = () => {
             <Card text='Lorem Ipsum' image={mac} />
             <Card text='Lorem Ipsum' image={mac} />
             <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
-            <Card text='Lorem Ipsum' image={mac} />
         </div>
     )
 }

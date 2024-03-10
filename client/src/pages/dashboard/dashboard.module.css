@@ -1,0 +1,27 @@
+.dashboard {
+    color: black;
+    font-family: Nunito;
+    font-size: 1.6rem;
+}
+.header {
+    display: flex;
+}
+.content {
+    display: flex;
+}
+.logo {
+    margin-left: 3rem;
+}
+.navigation {
+    height: 100vh;
+    font-size: 1.4rem;
+    width: fit-content;
+}
+.navigation nav {
+    display: flex;
+    flex-direction: column;
+}
+
+nav a {
+    white-space: nowrap;
+}

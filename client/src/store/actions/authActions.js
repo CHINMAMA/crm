@@ -1,21 +1,19 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-
-const backendURL = 'http://127.0.0.1:5000'
+import { SERVER_URL } from '../../utils/constants'
 
 export const registerUser = createAsyncThunk(
     'user/registrate',
-    async ({ firstName, email, password }, {rejectWithValue}) => {
+    async ({ firstName, lastName, phoneNumber, email, password, role }, {rejectWithValue}) => {
         try {
             const config = {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }
-            
             await axios.post(
-                `${backendURL}/registrate`,
-                { firstName, email, password },
+                `${SERVER_URL}/register`,
+                { firstName, lastName, phoneNumber, email, password, role },
                 config
             )
         } catch (error) {
@@ -39,16 +37,16 @@ export const loginUser = createAsyncThunk(
             }
 
             const { data } = await axios.post(
-                `${backendURL}/login`,
+                `${SERVER_URL}/login`,
                 { email, password },
                 config
             )
 
-            localStorage.setItem('userToken', data.userToken)
+            localStorage.setItem('accessToken', data.accessToken)
             return data
         } catch(error) {
-            if (error.response && error.response.data.message) {
-                return rejectWithValue(error.response.data.message)
+            if (error.response && error.response.data) {
+                return rejectWithValue(error.response.data)
             } else {
                 return rejectWithValue(error.message)
             }

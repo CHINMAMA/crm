@@ -5,29 +5,17 @@ header {
 }
 
 .header {
+    min-height: 45rem;
     height: 100vh;
 }
 
 body {
-
     color: aliceblue;
 }
 
 .logo {
     margin-left: 10%;
     margin-top: 3rem;
-    border: none;
-    font-weight: 900;
-}
-
-.logo h1 {
-    font-weight: 900;
-    font-size: 2.4rem;
-    margin: 0;
-}
-
-.coloredText {
-    color: crimson;
 }
 
 .login {
@@ -62,7 +50,7 @@ body {
 }
 
 .titleWrapper {
-    margin-top: 10rem;
+    margin-top: 5rem;
     margin-left: 10%;
     margin-right: 10%;
     display: flex;

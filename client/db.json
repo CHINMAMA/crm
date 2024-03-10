@@ -1,0 +1,58 @@
+{
+  "members": [
+    {
+      "id": "1",
+      "firstName": "Michael",
+      "lastName": "Swag",
+      "email": "damn@fame.hype",
+      "phoneNumber": "+12345678901",
+      "assignedTrainer": 2,
+      "memberActive": true
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "firstName": "Ksenia",
+      "lastName": "Nekrasova",
+      "email": "ahah@xd.damn",
+      "phoneNumber": "+12345678901",
+      "password": "fcknhtydry)",
+      "admin": true
+    },
+    {
+      "id": "2",
+      "firstName": "CHINCHOPA",
+      "lastName": "pudge",
+      "email": "im@very.sorry",
+      "phoneNumber": "+12345678901",
+      "password": "ssssslvySRR)",
+      "admin": false
+    },
+    {
+      "id": "3",
+      "firstName": "Damn",
+      "lastName": "Swag",
+      "phoneNumber": "+89999999999",
+      "email": "hype@fame.me",
+      "password": "12345",
+      "admin": true
+    }
+  ],
+  "gyms": [
+    {
+      "id": "1",
+      "name": "BLOODY HELL",
+      "country": "France",
+      "city": "Paris",
+      "adress": "123 BUTCHER st.",
+      "members": [
+        1
+      ],
+      "employees": [
+        1,
+        2
+      ]
+    }
+  ]
+}

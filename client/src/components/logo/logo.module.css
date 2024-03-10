@@ -1,0 +1,13 @@
+.logo {
+    border: none;
+    font-weight: bolder;
+    font-size: 2.4rem;
+}
+
+.logo h1 {
+    margin: 0;
+}
+
+.coloredText {
+    color: crimson;
+}

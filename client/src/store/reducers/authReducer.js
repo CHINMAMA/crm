@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { loginUser, registerUser } from "../actions/authActions"
 
+const accessToken = localStorage.getItem('accessToken')
+    ? localStorage.getItem('accessToken')
+    : null
 
 const initialState = {
     loading: false,
     userInfo: {}, 
-    userToken: null,
+    accessToken,
     error: null,
     success: false,
     loginTab: 0,
@@ -16,10 +19,24 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setLoginTab(state, action) {
+            console.log("SET LOGIN TAB STATE");
+            console.log(state.loginTab);
             if (action.payload in [0, 1])
                 state.loginTab = action.payload
             return state
-        }
+        },
+        setCredentials(state, action) {
+            state.userInfo = action.payload
+            return state
+        },
+        logout(state) {
+            localStorage.removeItem('accessToken')
+            state.loading = false
+            state.userInfo = null
+            state.accessToken = null
+            state.error = null
+            return state
+        } 
     },
     extraReducers: (builder) => {
         builder
@@ -41,8 +58,8 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, { payload }) => {
                 state.loading = false
-                state.userInfo = payload
-                state.userToken = payload.userToken
+                state.accessToken = payload.accessToken
+                state.userInfo = payload.user
             })
             .addCase(loginUser.rejected, (state, { payload }) => {
                 state.loading = false
@@ -52,4 +69,4 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const { setLoginTab } = authSlice.actions
+export const { setLoginTab, setCredentials, logout } = authSlice.actions

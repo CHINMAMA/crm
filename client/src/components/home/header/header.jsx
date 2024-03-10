@@ -4,6 +4,7 @@ import { Link } from 'react-scroll'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setLoginTab } from '../../../store/reducers/authReducer'
+import Logo from '../../logo/logo'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -19,9 +20,7 @@ const Header = () => {
     return (
         <div className={s.header}>
             <header>
-                <span className={s.logo}>
-                    <h1>Herrington<span className={s.coloredText}>CRM</span></h1>
-                </span>
+                <span className={s.logo}><Logo/></span>
                 <div className={s.login}>
                     <span>
                         <button onClick={handleSigninClick}>Sign in</button>

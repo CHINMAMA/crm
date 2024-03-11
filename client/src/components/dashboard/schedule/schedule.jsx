@@ -10,9 +10,10 @@ import {
     useGetGymTrainersByGymsQuery,
 } from '../../../services/scheduleService';
 import CustomStore from 'devextreme/data/custom_store';
-import Scheduler from 'devextreme-react/cjs/scheduler';
+import Scheduler, { View } from 'devextreme-react/cjs/scheduler';
 import 'devextreme/dist/css/dx.light.css'
 import { useOutletContext } from 'react-router-dom';
+import Appointment from './appointment';
 
 const Schedule = () => {
     const { userInfo } = useOutletContext()
@@ -54,9 +55,9 @@ const Schedule = () => {
 
     const [currentGym, setCurrentGym] = useState(gyms ? gyms[0]?.id : undefined)
 
-    const [addAppointment, {}] = useAddAppointmentMutation()
-    const [deleteAppointment, {}] = useDeleteAppointmentMutation()
-    const [updateAppointment, {}] = useUpdateAppointmentMutation()
+    const [addAppointment] = useAddAppointmentMutation()
+    const [deleteAppointment] = useDeleteAppointmentMutation()
+    const [updateAppointment] = useUpdateAppointmentMutation()
     
     
     // Custom store
@@ -164,7 +165,14 @@ const Schedule = () => {
             currentDate={currentDate}
             dataSource={dataSource}
             currentView='week'
+            appointmentComponent={Appointment}
+            startDayHour={9}
+            endDayHour={23}
+            height='100%'
+            width='100%'
+            firstDayOfWeek={1}
         >
+
         </Scheduler>
   )
 }

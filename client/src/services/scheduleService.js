@@ -100,6 +100,32 @@ export const scheduleApi = createApi({
                 ] :
                 [{ type: 'Gyms', id: 'LIST' }]
         }),
+        getAllGyms: builder.query({
+            query: () => ({
+                url: 'gyms',
+                method: 'GET',
+            }),
+            providesTags: (result) => 
+                result ?
+                [
+                    ...result.map(({ id }) => ({ type: 'Gyms', id })),
+                    { type: 'Gyms', id: 'LIST' }
+                ] :
+                [{ type: 'Gyms', id: 'LIST' }]
+        }),
+        getGym: builder.query({
+            query: (gymsId) => ({
+                url: `gyms/${gymsId}`,
+                method: 'GET',
+            }),
+            providesTags: (result) => 
+                result ?
+                [
+                    { type: 'Gyms', id: result.id },
+                    { type: 'Gyms', id: 'LIST' }
+                ] :
+                [{ type: 'Gyms', id: 'LIST' }]
+        }),
         addGym: builder.mutation({
             query: ({
                 userId,
@@ -107,7 +133,24 @@ export const scheduleApi = createApi({
             }) => ({
                 url: 'gyms',
                 method: 'POST',
-                body: gymData
+                body: {userId: userId, ...gymData}
+            }),
+            invalidatesTags: [{ type: 'Gyms', id: 'LIST' }]
+        }),
+        updateGym: builder.mutation({
+            query: ({id, gymData}) => ({
+                url: `gyms/${id}`,
+                method: 'PATCH',
+                body: {
+                    ...gymData
+                }
+            }),
+            invalidatesTags: [{ type: 'Gyms', id: 'LIST' }]
+        }),
+        deleteGym: builder.mutation({
+            query: (id) => ({
+                url: `gyms/${id}`,
+                method: 'DELETE',
             }),
             invalidatesTags: [{ type: 'Gyms', id: 'LIST' }]
         }),
@@ -116,11 +159,15 @@ export const scheduleApi = createApi({
                 url: 'gymTrainer',
                 method: 'POST',
                 body: {
-                    userId: trainerId,
+                    trainerId,
                     gymId,
                     status: 'sent'
                 }
-            })
+            }),
+            invalidatesTags: [
+                { type: 'Gyms', id: 'LIST' },
+                { type: 'Trainers', id: 'LIST' }
+            ]
         }),
         acceptTrainerToGym: builder.mutation({
             query: (id) => ({
@@ -149,22 +196,36 @@ export const scheduleApi = createApi({
                 [{ type: 'Trainers', id: 'LIST' }]
 
         }),
+        getAllTrainers: builder.query({
+            query: () => ({url: 'users?role=TRAINER'}),
+            providesTags: (result) => 
+                result ?
+                [
+                    ...result.map(({ id }) => ({ type: 'Trainers', id })),
+                    { type: 'Trainers', id: 'LIST' }
+                ] :
+                [{ type: 'Trainers', id: 'LIST' }]
+        }),
         getGymTrainersByTrainers: builder.query({
             query: (trainersId) => {
                 if (!trainersId || trainersId.length === 0) {
                     return {}
                 }
+                console.log('abshda');
+                console.log(trainersId);
                 return {
                     url: `gymTrainer?${trainersId.map(id => `trainerId=${id}`).join('&')}`,
                 }
             },
-            // providesTags: (result) => 
-            // result ?
-            // [
-            //     ...result.map(({ id }) => ({ type: 'Trainers', id })),
-            //     { type: 'Trainers', id: 'LIST' }
-            // ] :
-            // [{ type: 'Trainers', id: 'LIST' }]
+            providesTags: (result) => 
+            result ?
+            [
+                ...result.map(({ id }) => ({ type: 'Trainers', id })),
+                { type: 'Trainers', id: 'LIST' },
+                { type: 'Gyms', id: 'LIST' }
+            ] :
+            [{ type: 'Trainers', id: 'LIST' },
+             { type: 'Gyms', id: 'LIST' }]
         }),
         getGymTrainersByGyms: builder.query({
             query: (gymsId) => {
@@ -175,14 +236,41 @@ export const scheduleApi = createApi({
                     url: `gymTrainer?${gymsId.map(id => `gymId=${id}`).join('&')}`,
                 }
             },
-            // providesTags: (result) => 
-            // result ?
-            // [
-            //     ...result.map(({ id }) => ({ type: 'Trainers', id })),
-            //     { type: 'Trainers', id: 'LIST' }
-            // ] :
-            // [{ type: 'Trainers', id: 'LIST' }]
+            providesTags: (result) => 
+            result ?
+            [
+                ...result.map(({ id }) => ({ type: 'Trainers', id })),
+                { type: 'Trainers', id: 'LIST' },
+                { type: 'Gyms', id: 'LIST' }
+            ] :
+            [{ type: 'Trainers', id: 'LIST' },
+             { type: 'Gyms', id: 'LIST' }]
         }),
+        deleteGymTrainersByTrainer: builder.mutation({
+            query: (trainerId) => ({
+                url: `gymTrainer?trainerId=${trainerId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [
+                { type: 'Trainers', id: 'LIST' },
+                { type: 'Gyms', id: 'LIST' }
+            ]
+        }),
+        deleteGymTrainersByGym: builder.mutation({
+            query: (gymId) => ({
+                url: `gymTrainer?gymId=${gymId}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: [
+                { type: 'Trainers', id: 'LIST' },
+                { type: 'Gyms', id: 'LIST' }
+            ]
+        }),
+        deleteGymTrainer: builder.mutation({
+            query: () => ({
+                method: 'DELETE'
+            })
+        })
     }),
 })
   
@@ -193,10 +281,17 @@ export const {
     useGetAppointmentsQuery,
     useAddGymMutation,
     useGetGymsQuery,
+    useGetGymQuery,
     useGetGymsByOwnerQuery,
     useGetTrainersQuery,
     useAddTrainerToGymMutation,
     useAcceptTrainerToGymMutation,
     useGetGymTrainersByGymsQuery,
-    useGetGymTrainersByTrainersQuery
+    useGetGymTrainersByTrainersQuery,
+    useGetAllTrainersQuery,
+    useUpdateGymMutation,
+    useDeleteGymMutation,
+    useDeleteGymTrainersByTrainerMutation,
+    useDeleteGymTrainersByGymMutation,
+    useGetAllGymsQuery
 } = scheduleApi

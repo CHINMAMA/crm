@@ -1,22 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import s from './dashboard.module.css'
 import 'devextreme/dist/css/dx.light.css'
-import { Scheduler } from 'devextreme-react/scheduler';
 import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { logout } from '../../store/reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import Logo from '../../components/logo/logo';
-import { 
-    useAddAppointmentMutation,
-    useDeleteAppointmentMutation,
-    useGetAllGymsQuery,
-    useGetAppointmentsQuery,
-    useGetGymsByOwnerQuery,
-    useGetGymsQuery,
-    useGetTrainersQuery,
-    useUpdateAppointmentMutation
-} from '../../services/scheduleService';
-import CustomStore from 'devextreme/data/custom_store';
+
 
 function handleErrors(response) {
     if (!response.ok) {
@@ -39,22 +27,28 @@ const Dashboard = () => {
     
     return (
         <div className={s.dashboard}>
-            <header className={s.header}>
-                <span className={s.logo}><Logo size='1.6rem'/></span>
-                <button onClick={() => dispatch(logout())}>Logout</button>
-            </header>
-            <div className={s.content}>
-                <aside className={s.navigation}>
-                        <nav>
-                            <Link to='/members'>Members</Link>
-                            <Link to='/trainers'>Trainers</Link>
-                            <Link to='/gyms'>Gyms</Link>
-                        </nav>
-                    </aside>
-                <main>
-                    <Outlet context={{userInfo}}/>
-                </main>
-            </div>
+            <aside className={s.navigation}>
+                <div>
+                    <div id={s.logo}>
+                        <h1>
+                            Herrington<span className={s.coloredText}>CRM</span>
+                        </h1>
+                    </div>
+                    <nav>
+                        <Link to='/dashboard'>Schedule</Link>
+                        <Link to='./gyms'>Gyms</Link>
+                        {userInfo?.role === 'GYM OWNER' && <Link to='./trainers'>Trainers</Link>}
+                        <Link to='./members'>Members</Link>
+                    </nav>
+                </div>
+                <button id={s.logout} onClick={() => {
+                    dispatch(logout())
+                    navigate('/')
+                }}>Logout</button>
+            </aside>
+            <main className={s.content}>
+                <Outlet context={{userInfo}}/>
+            </main>
         </div>
     )
 }

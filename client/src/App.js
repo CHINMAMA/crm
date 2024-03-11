@@ -10,10 +10,11 @@ import { jwtDecode } from 'jwt-decode'
 import { setCredentials } from './store/reducers/authReducer.js';
 import { useEffect } from 'react';
 import Schedule from './components/dashboard/schedule/schedule.jsx';
+import Gyms from './components/dashboard/gyms/gyms.jsx';
 
 function App() {
     const { accessToken, userInfo } = useSelector((state) => state.auth)
-    const userId = (accessToken ? jwtDecode(accessToken) : undefined)?.sub
+    const userId = (accessToken && accessToken !== 'undefined' ? jwtDecode(accessToken) : undefined)?.sub
     const { data: userData } = useGetUserDetailsQuery(userId)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -26,8 +27,11 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home/>}/>
                 <Route path='/sign-in' element={<Login/>}/>
-                <Route path='/dashboard' element={<Dashboard/>}>
+                <Route path='/dashboard/*' element={<Dashboard/>}>
                     <Route path='' element={<Schedule/>}/>
+                    <Route path='gyms' element={<Gyms/>}/>
+                    <Route path='trainers' element={<p>WIP</p>}/>
+                    <Route path='members' element={<p>WIP</p>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

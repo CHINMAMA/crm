@@ -2,26 +2,78 @@
     color: black;
     font-family: Nunito;
     font-size: 1.6rem;
-}
-.header {
     display: flex;
+    overflow: hidden;
+    width: 100vw;
 }
+
 .content {
     display: flex;
-}
-.logo {
-    margin-left: 3rem;
-}
-.navigation {
+    flex-direction: column;
     height: 100vh;
-    font-size: 1.4rem;
-    width: fit-content;
+    width: 100%;
 }
+
+#logo {
+    border: none;
+    margin: 1.2rem 0;
+}
+
+#logo h1 {
+    font-size: 1.4rem;
+    font-weight: bolder;
+    margin: 0;
+}
+
+.coloredText {
+    color: crimson;
+}
+
+.navigation {
+    /* height: 100vh; */
+    font-size: 1.4rem;
+    font-weight: bold;
+    width: fit-content;
+    padding: 0 1rem;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .navigation nav {
     display: flex;
     flex-direction: column;
 }
 
-nav a {
+.navigation nav a {
     white-space: nowrap;
+    text-decoration: none;
+    color: black;
+    margin: 0.1rem;
+}
+
+#logout {
+    font-family: Nunito;
+    /* color: aliceblue; */
+    /* background: crimson; */
+    font-weight: bold;
+    margin: 1rem 0;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    font-size: 1.2rem;
+    /* font-size: 1.2rem;
+    border-radius: 5rem;
+    height: 2.5rem;
+    width: 5.8rem;
+    padding: 0.7rem;
+    transition: 300ms linear;
+    
+    align-items: center;
+    justify-content: center; */
+}
+
+#logout:hover {
+    /* background-color:darkred; */
 }

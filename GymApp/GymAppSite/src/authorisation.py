@@ -121,7 +121,9 @@ def registration_page(request):
 @api_view(['POST'])
 @login_required
 def deletion_page(request):
-    if (request.method == 'POST'):
-        email = request.data['email']
-        UserLoginAndPassword.objects.filter(id=id).delete()
+    email = request.data['email']
+    try:
+        UserLoginAndPassword.objects.filter(email=email).delete()
         return HttpResponse('deleted')
+    except:
+        return HttpResponse('deletion went wrong')

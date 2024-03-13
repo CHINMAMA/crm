@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
-from GymAppSite.models import UserLoginAndPassword, Gyms, GymsSerializer
+from GymAppSite.models import UserLoginAndPassword, Gyms, GymsSerializer, \
+    Scedules, ScedulesSerializer
 from django.http import HttpResponse
 
 def csrf(request):
@@ -46,6 +47,57 @@ def gyms_page(request):
         'auth': '1',
         'gyms': gyms
     })
+
+@api_view(['POST'])
+@login_required
+def get_scedules_for_user(request):
+    usr = UserLoginAndPassword.objects.get(email=request.data['login_cookie'])
+    scedules = []
+    for obj in Scedules.objects.all:
+        if obj.client == usr:
+            scedules.append({
+                'beg': obj.begin,
+                'end': obj.end
+            })
+    return Response({
+        'auth': '1',
+        'scedules': scedules
+    })
+
+@api_view(['POST'])
+@login_required
+def add_scedule_for_user(request):
+    begin, end = request.data['begin'], request.data['end']
+    usr = UserLoginAndPassword.objects.get(email=request.data['login_cookie'])
+    scedules = []
+    for obj in Scedules.objects.all:
+        if obj.client == usr:
+            scedules.append({
+                'id': obj.id,
+                'beg': obj.begin,
+                'end': obj.end
+            })
+    if (len(scedules) > 20):
+        return HttpResponse('too much scedules')
+    for i in scedules:
+        if (i.begin < begin and i.end > begin) or \
+            (i.begin < end and i.end > end) or \
+            (i.end < end and i.begin > begin) or \
+            (i.begin < begin and i.end > end):
+            return HttpResponse('wrong time')
+    else:
+        ScedulesSerializer(client=usr, begin=begin, end=end)
+        return HttpResponse('ok')
+
+@api_view(['POST'])
+@login_required
+def delete_scedule_for_user(request):
+    try:
+        UserLoginAndPassword.objects.filter(id=request.data['id'], \
+            client=UserLoginAndPassword.objects.get(email=request.data['login_cookie'])).delete()
+        return HttpResponse('ok')
+    except:
+        return HttpResponse('ddeletion went wrong')
 
 @api_view(['POST'])
 @admin_required

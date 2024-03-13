@@ -21,14 +21,35 @@ class Gyms(models.Model):
     city = models.CharField(max_length=32, default="")
     address = models.CharField(max_length=32, default="")
 
-class GymsSerializer():
-    def __init__(self, name: str, country: str, city: str, address: str):
+class Scedules(models.Model):
+    id = models.IntegerField(primary_key=True, unique=True)
+    client = models.ForeignKey(UserLoginAndPassword, on_delete=models.CASCADE)
+    begin = models.DateTimeField()
+    end = models.DateTimeField()
+
+class ScedulesSerializer():
+    def __init__(self, client, begin, end):
         max_id = 1
-        for obj in UserLoginAndPassword.objects.all():
+        for obj in Scedules.objects.all():
             if obj.id > max_id:
                 max_id = obj.id
         self.id = max_id + 1
-        self.base = UserLoginAndPassword(
+        self.base = Scedules(
+            client = client,
+            begin = begin,
+            end = end,
+            id=self.id,
+        )
+        self.base.save()
+
+class GymsSerializer():
+    def __init__(self, name: str, country: str, city: str, address: str):
+        max_id = 1
+        for obj in Gyms.objects.all():
+            if obj.id > max_id:
+                max_id = obj.id
+        self.id = max_id + 1
+        self.base = Gyms(
             name = name,
             country = country,
             city = city,
@@ -36,8 +57,6 @@ class GymsSerializer():
             id=self.id,
         )
         self.base.save()
-    def get(self):
-        return self.base
 
 
 class UserSerializer():
@@ -59,5 +78,3 @@ class UserSerializer():
             token_salt=''
         )
         self.base.save()
-    def get(self):
-        return self.base

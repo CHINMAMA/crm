@@ -11,7 +11,10 @@ urlpatterns = [
     path('login/', authorisation.authorisation_page),
     path('logout/', authorisation.logout_page),
     path('register/', authorisation.registration_page),
-    # path('deletion/', authorisation.deletion_page),
+    path('deletion/', authorisation.deletion_page),
     path('view_gyms/', views.gyms_page),
     path('add_gym/', views.add_gym),
+    path('get_scedules_for_user/', views.get_scedules_for_user),
+    path('add_scedule_for_user/', views.add_scedule_for_user),
+    path('delete_scedule_for_user/', views.delete_scedule_for_user),
 ]

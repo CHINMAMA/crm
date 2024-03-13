@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
     "base-64": "^1.0.0",
+    "buffer": "^6.0.3",
+    "core-js": "^3.36.0",
     "devextreme": "23.2.4",
     "devextreme-react": "23.2.4",
     "dotenv": "^16.4.5",
@@ -51,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "concurrently": "^8.2.2",
     "devextreme-themebuilder": "23.2.4",
     "json-server": "^1.0.0-alpha.23",

@@ -4,12 +4,28 @@ import SignIn from '../../components/login/signIn/signIn'
 import SignUp from '../../components/login/signUp/signUp'
 import s from './login.module.css'
 import { setLoginTab } from '../../store/reducers/authReducer'
-import { Link } from 'react-router-dom'
+
+class ApiError
+{
+    constructor()
+    {
+        this.error = 'd dfd'
+    }
+    get_error ()
+    {
+        return this.error
+    }
+    set_error(new_err)
+    {
+        this.error = new_err
+    }
+}
+
+export let ApiErrs = new ApiError()
 
 const Login = () => {
     const loginTab = useSelector(state => state.auth.loginTab)
     const dispatch = useDispatch()
-    
     const chooseTab = (loginTab) => {
         if (loginTab === 0)
             return (
@@ -23,9 +39,6 @@ const Login = () => {
     const selectedStyle = {borderBottom: 'solid 1px #333333'}
     return (
         <div className={s.loginPage}>
-            {/* <Link to='/' id={s.logo}>
-                <h1>Herrington<span className={s.coloredText}>CRM</span></h1>
-            </Link> */}
             <div className={s.loginForm}>
                 <div className={s.chooseTab}>
                     <button 

@@ -3,8 +3,7 @@ import s from '../../../pages/login/login.module.css'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '../../../store/actions/authActions'
-import { useNavigate } from 'react-router-dom'
-import { setLoginTab } from '../../../store/reducers/authReducer'
+import { ApiErrs } from '../../../pages/login/login.jsx'
 
 const SignUp = () => {
     const { register, handleSubmit } = useForm()
@@ -13,21 +12,26 @@ const SignUp = () => {
         (state) => state.auth
     )
     const dispatch = useDispatch()
-    // const navigate = useNavigate()
-
     const submitForm = (data) => {
         if (data.password !== data.confirmPassword) {
             error = 'Password mismatch'
             return
         }
         data.email = data.email.toLowerCase()
-        dispatch(registerUser(data))
-        if (success) dispatch(setLoginTab(0))
+        let dat = dispatch(registerUser(data))
+        .then((dat) => {
+            console.log(dat.payload)
+            if (dat.payload === 'login_exists')
+            {
+                document.getElementById('api_errs').innerHTML = 'Email registered'
+            }
+        })
     }
 
     return (
         <form onSubmit={handleSubmit(submitForm)} className={s.form}>
             {error && <span className={s.error}>{error}</span>}
+            <span id='api_errs' className={s.error}></span>
             <div className={s.formGroup}>
                 <label htmlFor='email'>
                     Email

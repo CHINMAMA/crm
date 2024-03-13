@@ -7,25 +7,18 @@ export const authApi = createApi({
         baseUrl: SERVER_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.accessToken
-            const auth_token = localStorage.getItem('auth_token')
-            const login_cookie = localStorage.getItem('login_cookie')
             if (token) {
-                headers.set('authorization', `Bearer ${token}`)  
+                headers.set('authorization', `Bearer ${token}`)
+                return headers
             }
-            if (auth_token) {
-                headers.set('auth_token', auth_token)
-            }
-            if (login_cookie) {
-                headers.set('login_cookie', login_cookie)
-            }
-            return headers
         },
     }),
     endpoints: (builder) => ({
         getUserDetails: builder.query({
             query: (userId) => ({
-                url: `users/${userId}`,
-                method: 'GET',
+                url: `index/`,
+                method: 'POST',
+                body: userId
             }),
         }),
     }),

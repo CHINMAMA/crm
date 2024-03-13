@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../../store/actions/authActions'
 import { useNavigate } from 'react-router-dom'
 import { useGetUserDetailsQuery } from '../../../services/authService'
+import { login } from '../../../store/reducers/authReducer'
 
 const SignIn = () => {
     const { register, handleSubmit } = useForm()
@@ -20,11 +21,19 @@ const SignIn = () => {
     })
     const dispatch = useDispatch()
     const submitForm = (data) => {
-        dispatch(loginUser(data))
+        let dat = dispatch(loginUser(data))
+        .then((dat) => {
+            console.log(dat.payload)
+            if (dat.payload === 'NOT OK')
+            {
+                document.getElementById('api_errs').innerHTML = 'Wrong Password'
+            }
+        })
     }
     return (
         <form onSubmit={handleSubmit(submitForm)} className={s.form}>
             {error && <span className={s.error}>{error}</span>}
+            <span id='api_errs' className={s.error}></span>
             <div className={s.formGroup}>
                 <label htmlFor='email'>
                     Email

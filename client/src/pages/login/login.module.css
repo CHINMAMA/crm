@@ -1,20 +1,3 @@
-#logo {
-    border: none;
-    text-decoration: none;
-    color: aliceblue;
-}
-
-#logo h1 {
-    font-weight: bolder;
-    font-size: 1.6rem;
-    margin: 0;
-}
-
-.coloredText {
-    color: crimson;
-}
-
-
 .loginPage {
     width: 100%;
     height: 100vh;

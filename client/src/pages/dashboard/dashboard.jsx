@@ -6,7 +6,9 @@ import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { logout } from '../../store/reducers/authReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import Logo from '../../components/logo/logo';
-import { 
+import { get_dashboard_data } from '../../store/actions/authActions'
+import
+{
     useAddAppointmentMutation,
     useDeleteAppointmentMutation,
     useGetAllGymsQuery,
@@ -27,16 +29,42 @@ function handleErrors(response) {
 
 const Dashboard = () => {
     const dispatch = useDispatch() 
-
-    const { userInfo } = useSelector((state) => state.auth)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (!userInfo || Object.keys(userInfo).length === 0) {
-            navigate('/sign-in')
+    let dat = dispatch(get_dashboard_data({
+        login_cookie: localStorage.getItem('login_cookie'),
+        auth_token: localStorage.getItem('auth_token')
+    }))
+    .then((dat) =>
+    {
+        console.log(dat)
+        if (dat.payload.auth !== '0')
+        {
+            document.getElementById('greeting').innerHTML=(`Welcome, ${dat.payload.user_name}`)
         }
-    }, [userInfo])
-    
+        if (dat.payload.auth === '1' || dat.payload.auth === '0')
+        {
+            var TextElements = document.getElementsByClassName('admin_required');
+
+            for (var i = 0, max = TextElements.length; i < max; i++) {
+                TextElements[i].style.visibility = 'hidden';
+                TextElements[i].style.z_index = -1;
+                TextElements[i].style.position = 'absolute';
+            }
+            
+        }
+        else if (dat.payload.auth === '3')
+        {
+            var TextElements = document.getElementsByClassName('admin_required');
+
+            for (var i = 0, max = TextElements.length; i < max; i++) {
+                TextElements[i].style.visibility = 'visible';
+                TextElements[i].style.z_index = 1;
+                TextElements[i].style.position = 'static';
+            }
+        }
+    })
+
     return (
         <div className={s.dashboard}>
             <header className={s.header}>
@@ -46,13 +74,13 @@ const Dashboard = () => {
             <div className={s.content}>
                 <aside className={s.navigation}>
                         <nav>
-                            <Link to='/members'>Members</Link>
-                            <Link to='/trainers'>Trainers</Link>
+                            <Link class='admin_required'  to='/members'>Members</Link>
+                            <Link class='admin_required' to='/trainers'>Trainers</Link>
                             <Link to='/gyms'>Gyms</Link>
                         </nav>
                     </aside>
-                <main>
-                    <Outlet context={{userInfo}}/>
+                <main id='greeting'>
+                    Welcome, Anonymous user
                 </main>
             </div>
         </div>

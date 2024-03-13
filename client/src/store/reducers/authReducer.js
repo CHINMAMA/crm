@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { loginUser, registerUser, get_data } from "../actions/authActions"
+import { loginUser, registerUser, get_dashboard_data } from "../actions/authActions"
 
 const accessToken = localStorage.getItem('accessToken')
     ? localStorage.getItem('accessToken')
@@ -45,10 +45,6 @@ const authSlice = createSlice({
             state.error = null
             return state
         },
-        get_data(state)
-        {
-            return state
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -64,15 +60,15 @@ const authSlice = createSlice({
                 state.loading = false
                 state.error = payload
             })
-            .addCase(get_data.pending, (state) => {
+            .addCase(get_dashboard_data.pending, (state) => {
                 state.loading = true
                 state.error = null
             })
-            .addCase(get_data.fulfilled, (state, { payload }) => {
+            .addCase(get_dashboard_data.fulfilled, (state, { payload }) => {
                 state.loading = false
                 state.success = true
             })
-            .addCase(get_data.rejected, (state, { payload }) => {
+            .addCase(get_dashboard_data.rejected, (state, { payload }) => {
                 state.loading = false
                 state.error = payload
             })

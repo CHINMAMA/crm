@@ -13,6 +13,7 @@ const SignUp = () => {
     )
     const dispatch = useDispatch()
     const submitForm = (data) => {
+        console.log(data)
         if (data.password !== data.confirmPassword) {
             error = 'Password mismatch'
             return
@@ -20,7 +21,7 @@ const SignUp = () => {
         data.email = data.email.toLowerCase()
         let dat = dispatch(registerUser(data))
         .then((dat) => {
-            console.log(dat.payload)
+            console.log(dat)
             if (dat.payload === 'login_exists')
             {
                 document.getElementById('api_errs').innerHTML = 'Email registered'

@@ -1,20 +1,20 @@
 from django.views.decorators.csrf import csrf_exempt
-from GymAppSite.models import UserLoginAndPassword
-from GymAppSite.src.registration_other import get_hash, UserCreator
-from django.shortcuts import render, redirect
+from GymAppSite.models import UserLoginAndPassword, UserSerializer
+from GymAppSite.src.registration_other import get_hash
+
 from django.http import HttpResponse
-from django import forms
 import string
 import random
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
 
 
 def login_required(view):
     def wrapper(request):
-        if 'login_cookie' in request.data.keys() or 'auth_token' in request.data.keys():
+        print(request.data)
+        if 'login_cookie' in request.data.keys() and 'auth_token' in request.data.keys() \
+            and request.data['login_cookie'] != None and request.data['auth_token'] != None:
             login = request.data['login_cookie']
             auth_token = request.data['auth_token']
             access = False
@@ -84,21 +84,6 @@ def authorisation_page(request):
     else:
         return HttpResponse("NOT OK")
 
-
-def raise_not_admin_user_page(request):
-    return render(request, 'raise_not_admin_user.html')
-
-
-def raise_anonymous_user_page(request):
-    context = {
-        'link': '/login',
-        'text': 'login'
-    }
-    return render(request, 'raise_anonymous_user.html', context)
-
-
-from django.db import connection
-
 @csrf_exempt
 @api_view(['POST'])
 def registration_page(request):
@@ -124,7 +109,7 @@ def registration_page(request):
             salt = ''.join(random.choice(
                 string.ascii_letters + string.digits) for i in range(40))
             hash = get_hash(password, salt)
-            info = UserCreator(login, roles[role], hash, salt,
+            UserSerializer(login, roles[role], hash, salt,
                                first_name, last_name)
             print('created')
             return HttpResponse("ok")
@@ -137,6 +122,6 @@ def registration_page(request):
 @login_required
 def deletion_page(request):
     if (request.method == 'POST'):
-        id = request.data['id']
+        email = request.data['email']
         UserLoginAndPassword.objects.filter(id=id).delete()
         return HttpResponse('deleted')

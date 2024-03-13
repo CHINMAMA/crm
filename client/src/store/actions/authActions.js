@@ -2,20 +2,24 @@ import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { SERVER_URL } from '../../utils/constants'
 
-export const get_data = createAsyncThunk(
-    'user/index/',
-    async ({ rejectWithValue }) => {
+export const get_dashboard_data = createAsyncThunk(
+    'user/dashboard/',
+    async ({login_cookie, auth_token}, { rejectWithValue }) => {
         try {
-            const { data } = await axios.get(
-                `${SERVER_URL}/index/`,
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            const { data } = await axios.post(
+                `${SERVER_URL}/dashboard/`,
+                {
+                    'login_cookie': login_cookie,
+                    'auth_token': auth_token
+                },
+                config
             )
-            if (data.auth === '0') {
-                return 'Anonymous'
-            }
-            else {
-                return 'Anonymous'
-                //return data.username
-            }
+            return data
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return rejectWithValue(error.response.data.message)

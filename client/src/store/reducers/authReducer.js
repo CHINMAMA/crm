@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { loginUser, registerUser, get_dashboard_data } from "../actions/authActions"
+import { loginUser, registerUser, get_dashboard_data, viewUsers, DeleteUserByAdmin, DeleteYourself } from "../actions/authActions"
+import { viewGyms, AddGym } from "../actions/gymsActions"
 
 const accessToken = localStorage.getItem('accessToken')
     ? localStorage.getItem('accessToken')
@@ -48,6 +49,54 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(AddGym.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(AddGym.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.success = true
+            })
+            .addCase(AddGym.rejected, (state, { payload }) => {
+                state.loading = false
+                state.error = payload
+            })
+            .addCase(viewGyms.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(viewGyms.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.success = true
+            })
+            .addCase(viewGyms.rejected, (state, { payload }) => {
+                state.loading = false
+                state.error = payload
+            })
+            .addCase(DeleteYourself.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(DeleteYourself.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.success = true
+            })
+            .addCase(DeleteYourself.rejected, (state, { payload }) => {
+                state.loading = false
+                state.error = payload
+            })
+            .addCase(DeleteUserByAdmin.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(DeleteUserByAdmin.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.success = true
+            })
+            .addCase(DeleteUserByAdmin.rejected, (state, { payload }) => {
+                state.loading = false
+                state.error = payload
+            })
             .addCase(registerUser.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -57,6 +106,18 @@ const authSlice = createSlice({
                 state.success = true
             })
             .addCase(registerUser.rejected, (state, { payload }) => {
+                state.loading = false
+                state.error = payload
+            })
+            .addCase(viewUsers.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(viewUsers.fulfilled, (state, { payload }) => {
+                state.loading = false
+                state.success = true
+            })
+            .addCase(viewUsers.rejected, (state, { payload }) => {
                 state.loading = false
                 state.error = payload
             })

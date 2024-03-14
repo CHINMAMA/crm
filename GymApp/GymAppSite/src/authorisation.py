@@ -20,6 +20,7 @@ def login_required(view):
             access = False
             for obj in UserLoginAndPassword.objects.all():
                 print(get_hash(auth_token, obj.token_salt))
+                print(obj.role)
                 if obj.email == login and get_hash(auth_token, obj.token_salt) == obj.token_hash:
                     print('hehe')
                     access = True
@@ -38,7 +39,7 @@ def admin_required(view):
             auth_token = request.data['auth_token']
             access = False
             for obj in UserLoginAndPassword.objects.all():
-                if obj.email == login and obj.role == 'GYM OWNER' and get_hash(auth_token, obj.token_salt) == obj.token_hash:
+                if obj.email == login and obj.role == '1' and get_hash(auth_token, obj.token_salt) == obj.token_hash:
                     access = True
             if access:
                 return view(request)
@@ -101,10 +102,8 @@ def registration_page(request):
         login_error = False
 
         for obj in UserLoginAndPassword.objects.all():
-            print('hehe')
             if obj.email == login:
                 login_error = True
-        print('hohoo')
         if not login_error:
             salt = ''.join(random.choice(
                 string.ascii_letters + string.digits) for i in range(40))
@@ -121,9 +120,31 @@ def registration_page(request):
 @api_view(['POST'])
 @login_required
 def deletion_page(request):
-    email = request.data['email']
-    try:
-        UserLoginAndPassword.objects.filter(email=email).delete()
-        return HttpResponse('deleted')
-    except:
-        return HttpResponse('deletion went wrong')
+    email, password = request.data['email'], request.data['password']
+    access = False
+    if email == request.data['login_cookie']:
+        for obj in UserLoginAndPassword.objects.all():
+            print(get_hash(password, obj.salt))
+            if obj.email == email:
+                salt = obj.salt
+                if get_hash(password, salt) == obj.hash:
+                    access = True
+    if access:
+
+        try:
+            UserLoginAndPassword.objects.filter(email=email).delete()
+            return Response({
+                'auth': '1',
+                'result': '1'
+            })
+        except:
+            return Response({
+                'auth': '1',
+                'result': '-1'
+            })
+    
+    else:
+        return Response({
+            'auth': '1',
+            'result': '0'
+        })

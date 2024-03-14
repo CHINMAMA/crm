@@ -23,7 +23,7 @@ class Gyms(models.Model):
 
 class Scedules(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
-    client = models.ForeignKey(UserLoginAndPassword, on_delete=models.CASCADE)
+    client = models.ForeignKey('UserLoginAndPassword', on_delete=models.CASCADE)
     begin = models.DateTimeField()
     end = models.DateTimeField()
 

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'GymAppSite',
     'rest_framework',
     'corsheaders',
+    'django_extensions'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

@@ -76,7 +76,11 @@ const Dashboard = () => {
                         <nav>
                             <Link class='admin_required'  to='/members'>Members</Link>
                             <Link class='admin_required' to='/trainers'>Trainers</Link>
-                            <Link to='/gyms'>Gyms</Link>
+                            <Link class='admin_required'  to='/view-users'>Userboard</Link>
+                            <Link class='admin_required'  to='/delete-by-admin'>Delete User</Link>
+                            <Link to='/delete-yourself'>Delete Yourself</Link>
+                            <Link to='/view-gyms'>Gyms</Link>
+                            <Link class='admin_required' to='/add-gym'>Add gym</Link>
                         </nav>
                     </aside>
                 <main id='greeting'>

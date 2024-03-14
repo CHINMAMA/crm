@@ -40,12 +40,19 @@ def admin_page(request):
     })
 
 @api_view(['POST'])
-@login_required
 def gyms_page(request):
-    gyms = list(Gyms.objects.all())
+    gyms_arr = []
+    for obj in Gyms.objects.all():
+        gyms_arr.append({
+            'name': obj.name,
+            'country': obj.country,
+            'city': obj.city,
+            'address': obj.address,
+        })
+    
     return Response({
         'auth': '1',
-        'gyms': gyms
+        'gyms': gyms_arr
     })
 
 @api_view(['POST'])
@@ -93,7 +100,7 @@ def add_scedule_for_user(request):
 @login_required
 def delete_scedule_for_user(request):
     try:
-        UserLoginAndPassword.objects.filter(id=request.data['id'], \
+        Scedules.objects.filter(id=request.data['id'], \
             client=UserLoginAndPassword.objects.get(email=request.data['login_cookie'])).delete()
         return HttpResponse('ok')
     except:
@@ -106,28 +113,44 @@ def add_gym(request):
         request.data['country'], request.data['city'], request.data['address']
     naming_error = False
     for obj in Gyms.objects.all():
-        print('hehe')
         if obj.name == name or (obj.city == city and obj.address == address):
             naming_error = True
             break
     
     if not naming_error:
         GymsSerializer(name=name, country=country, city=city, address=address)
-    return HttpResponse("This gym already exists")
+    else:
+        return Response({
+            'auth': '1',
+            'result': '0'
+        })
+    return Response({
+        'auth': '1',
+        'result': '1'
+    })
 
 @api_view(['POST'])
 @login_required
-def index_page(request):
-    obj = UserLoginAndPassword.objects.get(email=request.data['login_cookie'])
-    obj_dict = obj.__dict__
-    return_dict = {
-        'id': obj_dict['id'],
-        'email': obj_dict['email'],
-        'role': obj_dict['role'],
-        'firstName': obj_dict['firstName'],
-        'lastName': obj_dict['lastName'],
-    }
+def view_users(request):
+    user_arr = []
+    for obj in UserLoginAndPassword.objects.all():
+        user_arr.append(obj.email)
+    
     return Response({
         'auth': '1',
-        'user_data': return_dict
+        'users': user_arr
+    })
+
+@api_view(['POST'])
+@admin_required
+def delete_user_by_admin(request):
+    try:
+        UserLoginAndPassword.objects.get(email=request.data['email']).delete()
+        result = '1'
+    except:
+        result = '0'
+
+    return Response({
+        'auth': '1',
+        'result': result
     })
